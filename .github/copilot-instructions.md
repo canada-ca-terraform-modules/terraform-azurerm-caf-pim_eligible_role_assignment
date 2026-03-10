@@ -1,4 +1,6 @@
-# Copilot Instructions for terraform-azurerm-caf-role-assignment
+<!-- spectre: copilot-only -->
+
+# Copilot Instructions for terraform-azurerm-caf-pim_eligible_role_assignment
 
 ## Module behavior to preserve
 - `scope` is a `list(string)` and should contain full Azure resource IDs.
@@ -11,7 +13,7 @@
   - `terraform validate`
 - Validate both directories when making changes:
   - repo root
-  - `ESLZ/`
+  - `test/`
 - Run lint recursively from root:
   - `tflint --recursive`
 - Repo skill for this workflow:
@@ -20,14 +22,21 @@
 ## Version constraints
 - Keep Terraform and provider constraints in `versions.tf` files:
   - root `versions.tf` should define `required_version` and `required_providers.azurerm`
-  - `ESLZ/versions.tf` should define `required_version`
+  - `test/versions.tf` should define `required_version`
+- Exception: keep ESLZ example `required_version` in `ESLZ/PimEligibleRoleAssignment.tf` (do not reintroduce `ESLZ/versions.tf`).
+- Repo skill for versioning guidance:
+  - `.github/skills/terraform-versioning-advisor/SKILL.md`
 
 ## Repository hygiene
 - Do not commit generated Terraform working directories:
   - `.terraform/` (any level)
 - Keep `.gitignore` rules aligned with module-repo expectations.
 - Keep `ESLZ/PimEligibleRoleAssignment.tfvars` tracked as an example file.
+- Keep `ESLZ/` as a user-facing implementation example; use `test/` for local module validation.
 
 ## Documentation expectations
 - README examples must match actual variable types (`scope` list, `principal_id` list).
 - Prefer minimal, targeted changes and keep examples consistent with module behavior.
+- Repo skill for docs workflow:
+  - `.github/skills/terraform-docs-workflow/SKILL.md`
+

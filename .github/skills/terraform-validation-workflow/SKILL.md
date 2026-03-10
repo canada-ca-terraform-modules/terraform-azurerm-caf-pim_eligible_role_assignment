@@ -1,6 +1,6 @@
 ---
 name: terraform-validation-workflow
-description: Run the standard validation workflow for this Terraform module repository when users ask to validate, lint, run checks, or verify Terraform changes.
+description: Run the standard validation workflow for this Terraform module repository. Trigger when users ask to "validate", "lint", "run checks", "verify Terraform changes", "check this module", or "run terraform validation".
 ---
 
 # Terraform Validation Workflow (Module Repo)
@@ -13,7 +13,7 @@ Use this workflow whenever validating changes in this repository.
    - `terraform init -backend=false`
    - `terraform validate`
 
-2. Validate in `ESLZ/`:
+2. Validate in `test/`:
    - `terraform init -backend=false`
    - `terraform validate`
 
@@ -24,12 +24,12 @@ Use this workflow whenever validating changes in this repository.
 
 - Run commands in the exact order above.
 - Stop immediately on first hard failure and report the failing command and error.
-- If `ESLZ` fails due to module source resolution, report the source path and suggest
-  a local-path source for local validation.
+- Keep `ESLZ/` as an implementation example for consumers and do not rely on it for
+   local module validation.
 - Keep changes minimal and do not modify unrelated files while validating.
 
 ## Success criteria
 
 - Root `terraform validate` passes.
-- `ESLZ/terraform validate` passes.
+- `terraform validate` in `test/` passes.
 - `tflint --recursive` returns no issues.
