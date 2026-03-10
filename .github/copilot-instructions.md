@@ -16,16 +16,16 @@
   - `test/`
 - Run lint recursively from root:
   - `tflint --recursive`
-- Repo skill for this workflow:
-  - `.github/skills/terraform-validation-workflow/SKILL.md`
+- Skill for this workflow:
+  - **terraform-validation-workflow** (local: `.github/skills/terraform-validation-workflow/SKILL.md`; fallback: `~/.copilot/skills/terraform-validation-workflow/SKILL.md`)
 
 ## Version constraints
 - Keep Terraform and provider constraints in `versions.tf` files:
   - root `versions.tf` should define `required_version` and `required_providers.azurerm`
   - `test/versions.tf` should define `required_version`
 - Exception: keep ESLZ example `required_version` in `ESLZ/PimEligibleRoleAssignment.tf` (do not reintroduce `ESLZ/versions.tf`).
-- Repo skill for versioning guidance:
-  - `.github/skills/terraform-versioning-advisor/SKILL.md`
+- Skill for versioning guidance:
+  - **terraform-versioning-advisor** (local: `.github/skills/terraform-versioning-advisor/SKILL.md`; fallback: `~/.copilot/skills/terraform-versioning-advisor/SKILL.md`)
 
 ## Repository hygiene
 - Do not commit generated Terraform working directories:
@@ -37,6 +37,15 @@
 ## Documentation expectations
 - README examples must match actual variable types (`scope` list, `principal_id` list).
 - Prefer minimal, targeted changes and keep examples consistent with module behavior.
-- Repo skill for docs workflow:
-  - `.github/skills/terraform-docs-workflow/SKILL.md`
+- Skill for docs workflow:
+  - **terraform-docs-workflow** (local: `.github/skills/terraform-docs-workflow/SKILL.md`; fallback: `~/.copilot/skills/terraform-docs-workflow/SKILL.md`)
+
+## Resource design and naming
+- Use simple, stable names for Terraform block identifiers (`this`, `main`, `default`)
+- Compose actual resource names from variables using `locals` to ensure consistency and enforce provider constraints
+- Never hardcode environment or region in module code; these must be inputs
+- Skills for naming conventions:
+  - **terraform-naming-conventions** (local: `.github/skills/terraform-naming-conventions/SKILL.md`; fallback: `~/.copilot/skills/terraform-naming-conventions/SKILL.md`) — provider-agnostic
+  - **ssc-azure-naming** — `~/.copilot/skills/ssc-azure-naming/SKILL.md` (global only; if using Government of Canada / SSC constraints)
+
 
