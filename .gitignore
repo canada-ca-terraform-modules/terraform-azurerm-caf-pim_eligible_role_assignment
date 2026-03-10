@@ -1,0 +1,32 @@
+# Terraform working directory
+**/.terraform/*
+
+# Terraform lock files (module repos often avoid committing these)
+**/.terraform.lock.hcl
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform variable files that may contain secrets
+*.tfvars
+*.tfvars.json
+!ESLZ/PimEligibleRoleAssignment.tfvars
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Editor / tooling
+.vscode/
+.github/agents/
