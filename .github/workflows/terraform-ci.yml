@@ -33,6 +33,9 @@ jobs:
           terraform init -backend=false
           terraform validate
 
+      - name: Terraform test (unit — mock provider, no credentials needed)
+        run: terraform test
+
       - name: Terraform init + validate (test)
         run: |
           cd test
