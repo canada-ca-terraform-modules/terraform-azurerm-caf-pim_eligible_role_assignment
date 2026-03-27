@@ -77,8 +77,8 @@ run "basename_fallback_without_custom_scope_names" {
 
 run "role_definition_full_id_no_lookup" {
   variables {
-    principal_id = ["aaaaaaaa-0000-0000-0000-000000000001"]
-    scope        = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
     role_definition = "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
   }
 

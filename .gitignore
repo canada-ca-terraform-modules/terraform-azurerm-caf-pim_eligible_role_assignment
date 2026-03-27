@@ -30,3 +30,13 @@ terraform.rc
 # Editor / tooling
 .vscode/
 .github/agents/
+.idea/
+
+# Terraform plan artifacts
+*.tfplan
+
+# Common editor swap / OS files
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
