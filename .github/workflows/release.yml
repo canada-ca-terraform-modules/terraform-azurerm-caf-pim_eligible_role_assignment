@@ -3,7 +3,7 @@ name: Release on merge
 on:
   pull_request:
     types: [closed]
-    branches: [master]
+    branches: [main, master]
 
 permissions:
   contents: write
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
         with:
-          ref: master
+          ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Extract version from ESLZ/PimEligibleRoleAssignment.tf
         id: version
@@ -63,4 +63,4 @@ jobs:
           gh release create "$VERSION" \
             --title "$VERSION" \
             --notes-file /tmp/release-notes.md \
-            --target master
+            --target "${{ github.event.pull_request.base.ref }}"

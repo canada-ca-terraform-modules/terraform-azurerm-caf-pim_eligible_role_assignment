@@ -13,6 +13,11 @@ variable "custom_scope_names" {
 variable "principal_id" {
   description = "IDs for the principals (User, Group, Service Principal) to assign the eligible role to"
   type        = list(string)
+
+  validation {
+    condition     = alltrue([for id in var.principal_id : can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", id))])
+    error_message = "Each principal_id must be a valid GUID (Azure AD Object ID), e.g. 00000000-0000-0000-0000-000000000000."
+  }
 }
 
 variable "role_definition" {
