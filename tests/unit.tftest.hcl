@@ -104,3 +104,147 @@ run "role_definition_name_triggers_lookup" {
     error_message = "Expected data source lookup when role_definition is a display name"
   }
 }
+
+###############################################################################
+# 6. justification is passed through to the resource
+###############################################################################
+
+run "justification_set" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      justification = "Eligible assignment for project operations"
+    }
+  }
+
+  assert {
+    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].justification == "Eligible assignment for project operations"
+    error_message = "justification should be passed through to the resource"
+  }
+}
+
+###############################################################################
+# 7. condition and condition_version are passed through together
+###############################################################################
+
+run "condition_and_condition_version_set" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      condition         = "@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'example-container'"
+      condition_version = "2.0"
+    }
+  }
+
+  assert {
+    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].condition_version == "2.0"
+    error_message = "condition_version should be passed through to the resource"
+  }
+}
+
+###############################################################################
+# 8. ticket block is passed through
+###############################################################################
+
+run "ticket_block_set" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      ticket = {
+        number = "INC0012345"
+        system = "ServiceNow"
+      }
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].ticket) == 1
+    error_message = "ticket block should be emitted when set"
+  }
+
+  assert {
+    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].ticket[0].number == "INC0012345"
+    error_message = "ticket.number should be passed through to the resource"
+  }
+}
+
+###############################################################################
+# 9. schedule.start_date_time explicit value bypasses time_static
+###############################################################################
+
+run "schedule_explicit_start_date_time" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      schedule = {
+        start_date_time = "2026-03-06T00:00:00Z"
+      }
+    }
+  }
+
+  assert {
+    condition     = length(time_static.start_date_time) == 0
+    error_message = "time_static.start_date_time should not be created when start_date_time is explicitly set"
+  }
+
+  assert {
+    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule[0].start_date_time == "2026-03-06T00:00:00Z"
+    error_message = "explicit start_date_time should be passed through to the resource"
+  }
+}
+
+###############################################################################
+# 10. schedule.expiration.duration_hours
+###############################################################################
+
+run "schedule_expiration_duration_hours" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      schedule = {
+        expiration = {
+          duration_hours = 8
+        }
+      }
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule) == 1
+    error_message = "schedule block should be emitted when expiration.duration_hours is set"
+  }
+}
+
+###############################################################################
+# 11. schedule.expiration.end_date_time
+###############################################################################
+
+run "schedule_expiration_end_date_time" {
+  variables {
+    principal_id    = ["aaaaaaaa-0000-0000-0000-000000000001"]
+    scope           = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-alpha"]
+    role_definition = "Reader"
+    pim_eligible_role_assignment = {
+      schedule = {
+        expiration = {
+          end_date_time = "2027-03-06T00:00:00Z"
+        }
+      }
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule) == 1
+    error_message = "schedule block should be emitted when expiration.end_date_time is set"
+  }
+}

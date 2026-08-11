@@ -9,7 +9,7 @@ variable "pim_rbac" {
 }
 
 module "pim_eligible_role_assignment" {
-  source   = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-pim_eligible_role_assignment?ref=v1.0.0"
+  source   = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-pim_eligible_role_assignment?ref=v1.1.0"
   for_each = { for role in try(var.pim_rbac, []) : role.role => role }
 
   scope                        = try(each.value.scope, [])
