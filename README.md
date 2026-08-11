@@ -42,8 +42,8 @@ module "pim_eligible_role_assignment" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 5.0.1 |
-| <a name="provider_time"></a> [time](#provider\_time) | 0.14.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 5.0 |
+| <a name="provider_time"></a> [time](#provider\_time) | >= 0.11.0, < 1.0.0 |
 
 ## Modules
 
