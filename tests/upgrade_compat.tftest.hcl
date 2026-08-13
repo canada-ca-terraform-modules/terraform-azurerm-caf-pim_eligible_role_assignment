@@ -7,7 +7,16 @@
 # updates here. A real plan with credentials is required to detect ForceNew
 # regressions in CI against live Azure.
 
-mock_provider "azurerm" {}
+mock_provider "azurerm" {
+  # data.azurerm_role_definition.this[0].id must look like a real ARM ID
+  # (starts with "/") to satisfy the resource's lifecycle precondition -
+  # mock_provider otherwise generates an arbitrary 8-char string for it.
+  mock_data "azurerm_role_definition" {
+    defaults = {
+      id = "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+    }
+  }
+}
 mock_provider "time" {}
 
 # Step 1 — apply baseline assignment (no optional args set).

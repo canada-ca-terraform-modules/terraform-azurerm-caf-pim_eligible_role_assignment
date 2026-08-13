@@ -62,4 +62,15 @@ resource "azurerm_pim_eligible_role_assignment" "this" {
     read   = "5m"
     delete = "30m"
   }
+
+  lifecycle {
+    precondition {
+      # The fallback branch above concatenates scope + data.azurerm_role_definition.this[0].id
+      # verbatim, assuming .id is a path fragment starting with "/". Guard against a future
+      # provider change returning a bare UUID or another unprefixed format here, which would
+      # silently produce a malformed role_definition_id (e.g. "/subscriptions/.../rg-alphaproviders/...").
+      condition     = local.role_definition_type == "id" || startswith(data.azurerm_role_definition.this[0].id, "/")
+      error_message = "data.azurerm_role_definition.this[0].id must start with '/' for the scope-concatenation fallback to produce a valid role_definition_id."
+    }
+  }
 }

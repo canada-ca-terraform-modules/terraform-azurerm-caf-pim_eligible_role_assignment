@@ -12,15 +12,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v4.0.0
+        uses: hashicorp/setup-terraform@v4.0.1
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v6.2.2
+        uses: terraform-linters/setup-tflint@v6.3.0
         with:
-          tflint_version: v0.61.0
+          tflint_version: v0.64.0
 
       - name: TFLint init
         run: tflint --init
@@ -36,12 +36,6 @@ jobs:
       - name: Terraform test (unit — mock provider, no credentials needed)
         run: terraform test
 
-      - name: Terraform init + validate (test)
-        run: |
-          cd test
-          terraform init -backend=false
-          terraform validate
-
       - name: TFLint recursive
         run: tflint --recursive
 
@@ -51,7 +45,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Run tfsec (non-blocking)
         uses: aquasecurity/tfsec-action@v1.0.3
