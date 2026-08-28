@@ -11,12 +11,12 @@ resource "time_static" "start_date_time" {
     try(var.pim_eligible_role_assignment.schedule, null) != null &&
     try(var.pim_eligible_role_assignment.schedule.start_date_time, null) == null
     ) ? {
-    for assignment in local.assignments : "${assignment.principal_id}-${assignment.scope_name}" => assignment
+    for assignment in local.assignments : assignment.key => assignment
   } : {}
 }
 
 resource "azurerm_pim_eligible_role_assignment" "this" {
-  for_each = { for assignment in local.assignments : "${assignment.principal_id}-${assignment.scope_name}" => assignment }
+  for_each = { for assignment in local.assignments : assignment.key => assignment }
 
   scope = each.value.scope
   role_definition_id = local.role_definition_type == "id" ? var.role_definition : (

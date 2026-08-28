@@ -23,7 +23,12 @@ locals {
   # of principal IDs and scopes. For each principal ID, creates an assignment entry
   # for every scope (combining both scope IDs and names), resulting in a list where
   # each principal is paired with all available scopes.
-  assignments = flatten([for id in var.principal_id : [for name, scope in local.scope_ids_or_names : {
+  #
+  # Each entry includes a stable `key` built from the principal's list index and the
+  # scope name — both known at plan time — so that for_each never sees unknown keys
+  # even when principal_id values come from resources created in the same apply.
+  assignments = flatten([for idx, id in var.principal_id : [for name, scope in local.scope_ids_or_names : {
+    key          = "principal${idx}-${name}"
     principal_id = id
     scope        = scope
     scope_name   = name
