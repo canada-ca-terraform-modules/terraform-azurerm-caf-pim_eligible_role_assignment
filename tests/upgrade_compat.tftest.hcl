@@ -30,8 +30,8 @@ run "baseline_apply" {
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-rg-test")
-    error_message = "Baseline apply: expected key 'aaaaaaaa-0000-0000-0000-000000000001-rg-test'"
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-rg-test")
+    error_message = "Baseline apply: expected key 'principal0-rg-test'"
   }
 }
 
@@ -55,7 +55,7 @@ run "upgrade_plan_no_replacement" {
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-rg-test")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-rg-test")
     error_message = "Upgrade plan: assignment key must remain stable after adding optional args"
   }
 }

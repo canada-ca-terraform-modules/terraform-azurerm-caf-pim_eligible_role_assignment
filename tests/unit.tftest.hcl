@@ -55,12 +55,12 @@ run "custom_scope_names_override_key" {
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-custom-alpha")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-custom-alpha")
     error_message = "Key should use custom_scope_names[0] ('custom-alpha'), not basename(scope)"
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-custom-beta")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-custom-beta")
     error_message = "Key should use custom_scope_names[1] ('custom-beta'), not basename(scope)"
   }
 }
@@ -77,7 +77,7 @@ run "basename_fallback_without_custom_scope_names" {
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-rg-gamma")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-rg-gamma")
     error_message = "Key should use basename(scope) = 'rg-gamma' when custom_scope_names is empty"
   }
 }
@@ -131,7 +131,7 @@ run "justification_set" {
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].justification == "Eligible assignment for project operations"
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].justification == "Eligible assignment for project operations"
     error_message = "justification should be passed through to the resource"
   }
 }
@@ -152,7 +152,7 @@ run "condition_and_condition_version_set" {
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].condition_version == "2.0"
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].condition_version == "2.0"
     error_message = "condition_version should be passed through to the resource"
   }
 }
@@ -175,12 +175,12 @@ run "ticket_block_set" {
   }
 
   assert {
-    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].ticket) == 1
+    condition     = length(azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].ticket) == 1
     error_message = "ticket block should be emitted when set"
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].ticket[0].number == "INC0012345"
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].ticket[0].number == "INC0012345"
     error_message = "ticket.number should be passed through to the resource"
   }
 }
@@ -207,7 +207,7 @@ run "schedule_explicit_start_date_time" {
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule[0].start_date_time == "2026-03-06T00:00:00Z"
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].schedule[0].start_date_time == "2026-03-06T00:00:00Z"
     error_message = "explicit start_date_time should be passed through to the resource"
   }
 }
@@ -231,12 +231,12 @@ run "schedule_expiration_duration_hours" {
   }
 
   assert {
-    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule) == 1
+    condition     = length(azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].schedule) == 1
     error_message = "schedule block should be emitted when expiration.duration_hours is set"
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule[0].expiration[0].duration_hours == 8
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].schedule[0].expiration[0].duration_hours == 8
     error_message = "expiration.duration_hours should be passed through to the resource"
   }
 }
@@ -260,12 +260,12 @@ run "schedule_expiration_end_date_time" {
   }
 
   assert {
-    condition     = length(azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule) == 1
+    condition     = length(azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].schedule) == 1
     error_message = "schedule block should be emitted when expiration.end_date_time is set"
   }
 
   assert {
-    condition     = azurerm_pim_eligible_role_assignment.this["aaaaaaaa-0000-0000-0000-000000000001-rg-alpha"].schedule[0].expiration[0].end_date_time == "2027-03-06T00:00:00Z"
+    condition     = azurerm_pim_eligible_role_assignment.this["principal0-rg-alpha"].schedule[0].expiration[0].end_date_time == "2027-03-06T00:00:00Z"
     error_message = "expiration.end_date_time should be passed through to the resource"
   }
 }
@@ -289,12 +289,12 @@ run "custom_scope_names_length_mismatch_falls_back_to_basename" {
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-rg-alpha")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-rg-alpha")
     error_message = "Mismatched custom_scope_names length should fall back to basename(scope) rather than erroring"
   }
 
   assert {
-    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "aaaaaaaa-0000-0000-0000-000000000001-rg-beta")
+    condition     = contains(keys(azurerm_pim_eligible_role_assignment.this), "principal0-rg-beta")
     error_message = "Mismatched custom_scope_names length should fall back to basename(scope) rather than erroring"
   }
 }
