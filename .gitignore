@@ -12,6 +12,8 @@
 *.tfvars
 *.tfvars.json
 !ESLZ/PimEligibleRoleAssignment.tfvars
+# keep the tracked live-test fixture
+!test/live/config/*.tfvars
 
 # Crash logs
 crash.log
